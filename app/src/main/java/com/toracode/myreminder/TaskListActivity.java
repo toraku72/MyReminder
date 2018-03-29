@@ -13,12 +13,12 @@ public class TaskListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_containter);
+        Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
 
         if (fragment == null) {
             fragment = new TaskListFragment();
             fragmentManager.beginTransaction()
-                    .add(R.id.fragment_containter, fragment)
+                    .add(R.id.fragment_container, fragment)
                     .commit();
         }
     }

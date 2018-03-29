@@ -33,7 +33,7 @@ public class TimePickerFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedIstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         Date date = (Date) getArguments().getSerializable(ARG_TIME);
 
         Calendar calendar = Calendar.getInstance();

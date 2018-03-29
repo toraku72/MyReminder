@@ -12,14 +12,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 public class TaskListFragment extends Fragment {
     private RecyclerView mTaskRecyclerView;
+    private LinearLayout mEmptyViewPlaceholder;
+    private Button mAddButton;
     private TaskAdapter mAdapter;
     private int mCurrentPosition = -1;
 
@@ -37,6 +40,14 @@ public class TaskListFragment extends Fragment {
         mTaskRecyclerView = (RecyclerView) view.findViewById(R.id.task_recycle_view);
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        mEmptyViewPlaceholder = (LinearLayout) view.findViewById(R.id.empty_view_placeholder);
+        mAddButton = (Button) view.findViewById(R.id.add_a_task);
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewTask();
+            }
+        });
         updateUI();
 
         return view;
@@ -58,14 +69,18 @@ public class TaskListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_task:
-                Task task = new Task();
-                TaskLab.get(getActivity()).addTask(task);
-                Intent intent = TaskPagerActivity.newIntent(getActivity(), task.getId());
-                startActivity(intent);
+                addNewTask();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void addNewTask() {
+        Task task = new Task();
+        TaskLab.get(getActivity()).addTask(task);
+        Intent intent = TaskPagerActivity.newIntent(getActivity(), task.getId());
+        startActivity(intent);
     }
 
     private void updateUI() {
@@ -82,6 +97,14 @@ public class TaskListFragment extends Fragment {
             } else {
                 mAdapter.notifyDataSetChanged();
             }
+        }
+
+        if (tasks.size() > 0) {
+            mEmptyViewPlaceholder.setVisibility(View.GONE);
+            mTaskRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mEmptyViewPlaceholder.setVisibility(View.VISIBLE);
+            mTaskRecyclerView.setVisibility(View.GONE);
         }
     }
 

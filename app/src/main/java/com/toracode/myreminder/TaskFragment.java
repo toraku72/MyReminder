@@ -1,21 +1,27 @@
 package com.toracode.myreminder;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.UUID;
@@ -115,6 +121,14 @@ public class TaskFragment extends Fragment{
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (mTaskTitle.getText().toString().equals("")) {
+            removeTask();
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             return;
@@ -131,6 +145,46 @@ public class TaskFragment extends Fragment{
             mTask.setDate(date);
             updateTime();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_task, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_task:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setIcon(R.drawable.ic_dialog_delete)
+                        .setTitle(R.string.delete_task_title)
+                        .setMessage(R.string.delete_task_detail)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                removeTask();
+                                Toast.makeText(getActivity(), "Task deleted", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Doing nothing.
+                            }
+                        })
+                        .create()
+                        .show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void removeTask() {
+        TaskLab.get(getActivity()).removeTask(mTask);
+        getActivity().finish();
     }
 
     private void updateDate() {

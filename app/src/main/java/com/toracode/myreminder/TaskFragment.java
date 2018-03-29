@@ -121,14 +121,6 @@ public class TaskFragment extends Fragment{
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (mTaskTitle.getText().toString().equals("")) {
-            removeTask();
-        }
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             return;
@@ -164,7 +156,8 @@ public class TaskFragment extends Fragment{
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                removeTask();
+                                TaskLab.get(getActivity()).removeTask(mTask);
+                                getActivity().finish();
                                 Toast.makeText(getActivity(), "Task deleted", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -180,11 +173,6 @@ public class TaskFragment extends Fragment{
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void removeTask() {
-        TaskLab.get(getActivity()).removeTask(mTask);
-        getActivity().finish();
     }
 
     private void updateDate() {

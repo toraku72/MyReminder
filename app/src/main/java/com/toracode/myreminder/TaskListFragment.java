@@ -24,7 +24,6 @@ public class TaskListFragment extends Fragment {
     private LinearLayout mEmptyViewPlaceholder;
     private Button mAddButton;
     private TaskAdapter mAdapter;
-    private int mCurrentPosition = -1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,12 +90,7 @@ public class TaskListFragment extends Fragment {
             mAdapter = new TaskAdapter(tasks);
             mTaskRecyclerView.setAdapter(mAdapter);
         } else {
-            if (mCurrentPosition >= 0) {
-                mAdapter.notifyItemChanged(mCurrentPosition);
-                mCurrentPosition = -1;
-            } else {
-                mAdapter.notifyDataSetChanged();
-            }
+            mAdapter.notifyDataSetChanged();
         }
 
         if (tasks.size() > 0) {
@@ -131,7 +125,6 @@ public class TaskListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            mCurrentPosition = getAdapterPosition();
             Intent intent = TaskPagerActivity.newIntent(getActivity(), mTask.getId());
             startActivity(intent);
         }

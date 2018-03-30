@@ -97,11 +97,8 @@ public class TaskLab {
                 null, // having
                 null  // orderBy
         );
-        try {
-            return new TaskCursorWrapper(cursor);
-        } finally {
-            cursor.close();
-        }
+
+        return new TaskCursorWrapper(cursor);
     }
 
     private static ContentValues getContentValues(Task task) {

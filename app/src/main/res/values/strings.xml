@@ -11,5 +11,5 @@
     <string name="empty_view_message">There\'s nothing here</string>
     <string name="delete_task">Delete</string>
     <string name="delete_task_title">Deleting</string>
-    <string name="delete_task_detail">Permentally delete this task?</string>
+    <string name="delete_task_detail">Permanently delete this task?</string>
 </resources>

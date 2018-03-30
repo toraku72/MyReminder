@@ -9,8 +9,12 @@ public class Task {
     private Date mDate;
     private boolean mDone;
 
-    public Task() {
-        mId = UUID.randomUUID();
+    public  Task() {
+        this(UUID.randomUUID());
+    }
+
+    public Task(UUID id) {
+        mId = id;
         mDate = new Date();
     }
 

@@ -121,6 +121,13 @@ public class TaskFragment extends Fragment{
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        TaskLab.get(getActivity()).updateTask(mTask);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             return;

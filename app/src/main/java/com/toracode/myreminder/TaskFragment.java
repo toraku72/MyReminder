@@ -40,6 +40,7 @@ public class TaskFragment extends Fragment{
     private EditText mTaskTitle;
     private Button mDateButton;
     private Button mTimeButton;
+    private Button mRemindButton;
     private CheckBox mDoneCheckBox;
 
     public static TaskFragment newInstance(UUID taskId) {
@@ -85,7 +86,6 @@ public class TaskFragment extends Fragment{
         });
 
         mDateButton = (Button) view.findViewById(R.id.task_date_button);
-        updateDate();
         mDateButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +97,6 @@ public class TaskFragment extends Fragment{
         });
 
         mTimeButton = (Button) view.findViewById(R.id.task_time_button);
-        updateTime();
         mTimeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,9 +113,18 @@ public class TaskFragment extends Fragment{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mTask.setDone(isChecked);
+                updateUI();
             }
         });
 
+        mRemindButton = (Button) view.findViewById(R.id.remind_button);
+        mRemindButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlarmUtils.create(getContext(), mTask);
+            }
+        });
+        updateUI();
         return view;
     }
 
@@ -136,13 +144,13 @@ public class TaskFragment extends Fragment{
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mTask.setDate(date);
-            updateDate();
+            updateUI();
         }
 
         if (requestCode == REQUEST_TIME) {
             Date date = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
             mTask.setDate(date);
-            updateTime();
+            updateUI();
         }
     }
 
@@ -182,11 +190,14 @@ public class TaskFragment extends Fragment{
         }
     }
 
-    private void updateDate() {
-        mDateButton.setText(DateFormat.format("EEEE, MMM dd, yyyy", mTask.getDate()));
-    }
 
-    private void updateTime() {
+    private void updateUI() {
+        mDateButton.setText(DateFormat.format("EEEE, MMM dd, yyyy", mTask.getDate()));
         mTimeButton.setText(DateFormat.format("HH:mm", mTask.getDate()));
+        if (mTask.getDate().compareTo(new Date(System.currentTimeMillis())) < 0 || mTask.isDone()) {
+            mRemindButton.setEnabled(false);
+        } else {
+            mRemindButton.setEnabled(true);
+        }
     }
 }

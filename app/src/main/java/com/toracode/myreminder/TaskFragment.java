@@ -122,6 +122,7 @@ public class TaskFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 AlarmUtils.create(getContext(), mTask);
+                Toast.makeText(getActivity(), R.string.toast_remind_confirm, Toast.LENGTH_SHORT).show();
             }
         });
         updateUI();

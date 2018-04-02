@@ -13,4 +13,6 @@
     <string name="delete_task_title">Deleting</string>
     <string name="delete_task_detail">Permanently delete this task?</string>
     <string name="remind_me">Remind me!</string>
+    <string name="toast_remind_confirm">Got it! You\'ll get a notification for reminder!</string>
+    <string name="toast_remind_unavailable">The time set is unreachable.\nPlease choose another.</string>
 </resources>

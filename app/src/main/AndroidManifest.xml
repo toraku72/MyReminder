@@ -15,7 +15,8 @@
 
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,11 +24,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".TaskListActivity">
+        <activity android:name=".TaskListActivity"
+                  android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".TaskPagerActivity"
-                  android:parentActivityName=".TaskListActivity">
+                  android:parentActivityName=".TaskListActivity"
+                  android:screenOrientation="portrait">
         </activity>
 
         <service android:name=".service.SchedulingService"/>

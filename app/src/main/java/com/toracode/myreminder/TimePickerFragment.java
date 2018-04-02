@@ -48,18 +48,21 @@ public class TimePickerFragment extends DialogFragment {
 
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
-                .setTitle(R.string.time_picker_title)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                int hour, minute;
                                 if (Build.VERSION.SDK_INT >= 23) {
-                                    int hour = mTimePicker.getHour();
-                                    int minute = mTimePicker.getMinute();
-                                    Date date = new GregorianCalendar(year, month, day, hour, minute, 0).getTime();
-
-                                    sendResult(Activity.RESULT_OK, date);
+                                    hour = mTimePicker.getHour();
+                                    minute = mTimePicker.getMinute();
+                                } else {
+                                    hour = mTimePicker.getCurrentHour();
+                                    minute = mTimePicker.getCurrentMinute();
                                 }
+                                Date date = new GregorianCalendar(year, month, day, hour, minute, 0).getTime();
+
+                                sendResult(Activity.RESULT_OK, date);
                             }
                         })
                 .create();

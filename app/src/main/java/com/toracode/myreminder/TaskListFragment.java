@@ -120,7 +120,7 @@ public class TaskListFragment extends Fragment {
         public void bind(Task task) {
             mTask = task;
             mTitleTextView.setText(mTask.getTitle());
-            mDateTextView.setText(android.text.format.DateFormat.format("EEEE, MMM dd, yyyy",mTask.getDate()).toString());
+            mDateTextView.setText(android.text.format.DateFormat.format("HH:mm, EEEE, MMM dd, yyyy",mTask.getDate()).toString());
             mDoneImageView.setVisibility(mTask.isDone() ? View.VISIBLE : View.GONE);
         }
 

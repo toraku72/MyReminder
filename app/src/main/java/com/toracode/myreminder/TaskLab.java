@@ -19,6 +19,12 @@ public class TaskLab {
     private Context mContext;
     private SQLiteDatabase mDatabase;
 
+    private TaskLab(Context context) {
+        mContext = context.getApplicationContext();
+        mDatabase = new TaskBaseHelper(mContext).getWritableDatabase();
+
+    }
+
     public static TaskLab get(Context context) {
         if (sTaskLab == null) {
             sTaskLab = new TaskLab(context);
@@ -26,11 +32,6 @@ public class TaskLab {
         return sTaskLab;
     }
 
-    private TaskLab(Context context) {
-        mContext = context.getApplicationContext();
-        mDatabase = new TaskBaseHelper(mContext).getWritableDatabase();
-
-    }
     public void addTask(Task task) {
         ContentValues values = getContentValues(task);
 
